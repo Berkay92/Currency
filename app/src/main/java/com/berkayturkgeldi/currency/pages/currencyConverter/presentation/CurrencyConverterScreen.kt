@@ -7,12 +7,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.berkayturkgeldi.currency.pages.currencyConverter.viewmodel.CurrencyConverterState
+import com.berkayturkgeldi.currency.pages.currencyConverter.viewmodel.CurrencyConverterViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun CurrencyConverterScreen(
+    vm: CurrencyConverterViewModel = getViewModel(),
     onDetailsClicked : () -> Unit
+) {
+    val state = vm.state.collectAsState().value
+
+    CurrencyConverterContent(
+        state = state,
+        onDetailsClicked = onDetailsClicked
+    )
+}
+
+@Composable
+fun CurrencyConverterContent(
+    state: CurrencyConverterState,
+    onDetailsClicked : () -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -28,4 +47,12 @@ fun CurrencyConverterScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CurrencyConverterPreview() {
+    CurrencyConverterContent(
+        state = CurrencyConverterState()
+    )
 }
