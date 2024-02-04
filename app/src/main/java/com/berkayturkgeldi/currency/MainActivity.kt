@@ -3,12 +3,9 @@ package com.berkayturkgeldi.currency
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.berkayturkgeldi.currency.navigation.SetupMainNavigation
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,12 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     private fun MainContent() {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "Hello")
-        }
-
+        val navController = rememberNavController()
+        SetupMainNavigation(navController)
     }
 }
