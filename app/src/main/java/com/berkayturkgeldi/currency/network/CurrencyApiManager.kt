@@ -6,4 +6,6 @@ interface CurrencyApiManager {
 
     suspend fun getAllCurrencies(): Result<List<String>, Exception>
 
+    suspend fun convert(from: String, to: String, amount: Double) : Result<Double, Exception>
+
 }

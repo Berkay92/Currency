@@ -12,4 +12,10 @@ class FixerApiManager(
         return if (x.isSuccessful) Ok(x.body()?.symbols?.map { it.key } ?: listOf()) else Err(java.lang.Exception())
     }
 
+    override suspend fun convert(from: String, to: String, amount: Double) : Result<Double, Exception> {
+        val x = fixerApiService.latest(from, listOf(to))
+        return if (x.isSuccessful) Ok(x.body()?.rates?.getValue(from) ?: 0.0) else Err(java.lang.Exception())
+
+    }
+
 }

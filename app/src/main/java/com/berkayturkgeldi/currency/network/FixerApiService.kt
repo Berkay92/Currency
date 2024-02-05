@@ -2,6 +2,8 @@ package com.berkayturkgeldi.currency.network
 
 import android.util.Log
 import com.berkayturkgeldi.currency.BuildConfig
+import com.berkayturkgeldi.currency.network.model.response.ConvertResponse
+import com.berkayturkgeldi.currency.network.model.response.LatestResponse
 import com.berkayturkgeldi.currency.network.model.response.SymbolsResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -51,6 +53,20 @@ private val retrofit = Retrofit.Builder()
 interface FixerApiService {
     @GET("symbols")
     suspend fun getSymbols(): Response<SymbolsResponse>
+
+    @GET("latest")
+    suspend fun latest(
+        @Query("base") from: String? = null,
+        @Query("symbols") to: List<String>? = null,
+    ): Response<LatestResponse>
+
+    @GET("convert")
+    suspend fun convert(
+        @Query("from") from: String? = null,
+        @Query("to") to: String? = null,
+        @Query("amount") amount: Double? = null,
+    ): Response<ConvertResponse>
+
 }
 
 /**

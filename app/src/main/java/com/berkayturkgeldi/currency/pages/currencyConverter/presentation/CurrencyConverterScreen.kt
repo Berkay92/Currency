@@ -17,8 +17,10 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,6 +42,11 @@ fun CurrencyConverterScreen(
 
     CurrencyConverterContent(
         state = state,
+        onFromCurrencySelected = vm::onFromCurrencySelected,
+        onToCurrencySelected = vm::onToCurrencySelected,
+        onFromValueChanged = vm::onFromValueChanged,
+        onToValueChanged = vm::onToValueChanged,
+        onSwitchCurrencies = vm::onSwitchCurrencies,
         onDetailsClicked = onDetailsClicked
     )
 }
@@ -47,6 +54,10 @@ fun CurrencyConverterScreen(
 @Composable
 fun CurrencyConverterContent(
     state: CurrencyConverterState,
+    onFromCurrencySelected : (String) -> Unit = {},
+    onToCurrencySelected : (String) -> Unit = {},
+    onFromValueChanged : (Double) -> Unit = {},
+    onToValueChanged : (Double) -> Unit = {},
     onSwitchCurrencies : () -> Unit = {},
     onDetailsClicked : () -> Unit = {}
 ) {
@@ -63,11 +74,15 @@ fun CurrencyConverterContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                CurrencyDropdown("From", state.currencies)
+                CurrencyDropdown("From", state.fromCurrency, state.currencies) {
+                    onFromCurrencySelected.invoke(it)
+                }
                 Button(onClick = onSwitchCurrencies) {
                     Text(text = "Switch")
                 }
-                CurrencyDropdown("To", state.currencies)
+                CurrencyDropdown("To", state.toCurrency, state.currencies) {
+                    onToCurrencySelected.invoke(it)
+                }
             }
             Row(
                 modifier = Modifier
@@ -76,8 +91,14 @@ fun CurrencyConverterContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CurrencyTextField(onValueChange = {})
-                CurrencyTextField(onValueChange = {})
+                CurrencyTextField(
+                    stateValue = state.fromValue,
+                    onValueChange = onFromValueChanged
+                )
+                CurrencyTextField(
+                    stateValue = state.toValue,
+                    onValueChange = onToValueChanged
+                )
             }
             Button(onClick = onDetailsClicked) {
                 Text(text = "See Details")
@@ -89,13 +110,21 @@ fun CurrencyConverterContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable fun CurrencyDropdown(
     label: String,
-    currencyOptions: List<String>
+    stateValue: String?,
+    currencyOptions: List<String>,
+    onCurrencySelected: (String) -> Unit
 ) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
     var currency by remember {
         mutableStateOf("")
+    }
+
+    LaunchedEffect(stateValue) {
+        if (stateValue != null) {
+            currency = stateValue
+        }
     }
 
     ExposedDropdownMenuBox(
@@ -125,6 +154,7 @@ fun CurrencyConverterContent(
                     onClick = {
                         currency = currencyOption
                         isExpanded = false
+                        onCurrencySelected.invoke(currencyOption)
                     }
                 )
             }
@@ -134,13 +164,22 @@ fun CurrencyConverterContent(
 
 @Composable
 fun CurrencyTextField(
-    onValueChange: (String) -> Unit
+    stateValue: Double,
+    onValueChange: (Double) -> Unit
 ) {
-    var currencyValue by remember { mutableStateOf("") }
+    var currencyValue by remember { mutableDoubleStateOf(stateValue) }
+
+    LaunchedEffect(stateValue) {
+        currencyValue = stateValue
+    }
+
     TextField(
         modifier = Modifier.width(120.dp),
-        value = currencyValue,
-        onValueChange = onValueChange,
+        value = currencyValue.toString(),
+        onValueChange = {
+            currencyValue = it.toDouble()
+            onValueChange(currencyValue)
+        },
         placeholder = {
             Text(text = "")
         },
