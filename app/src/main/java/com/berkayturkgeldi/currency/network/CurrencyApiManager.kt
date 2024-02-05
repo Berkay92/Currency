@@ -1,10 +1,11 @@
 package com.berkayturkgeldi.currency.network
 
 import com.berkayturkgeldi.currency.network.common.Result
+import com.berkayturkgeldi.currency.network.error.CurrencyException
 
 interface CurrencyApiManager {
 
-    suspend fun getAllCurrencies(): Result<List<String>, Exception>
+    suspend fun getAllCurrencies(): Result<List<String>, CurrencyException>
 
     suspend fun convert(from: String, to: String, amount: Double) : Result<Double, Exception>
 

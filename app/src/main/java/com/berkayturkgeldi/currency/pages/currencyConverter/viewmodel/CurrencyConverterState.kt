@@ -10,5 +10,6 @@ data class CurrencyConverterState(
     val fromValue: Double = 1.0,
     val toValue: Double = 0.0,
     val convertRate: Double = 0.0,
-    val currencies: List<String> = listOf()
+    val currencies: List<String> = listOf(),
+    val exception: String? = null
 )

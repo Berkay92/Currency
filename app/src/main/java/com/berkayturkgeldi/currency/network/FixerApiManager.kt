@@ -3,15 +3,17 @@ package com.berkayturkgeldi.currency.network
 import com.berkayturkgeldi.currency.network.common.Err
 import com.berkayturkgeldi.currency.network.common.Ok
 import com.berkayturkgeldi.currency.network.common.Result
+import com.berkayturkgeldi.currency.network.error.CurrencyException
+import com.berkayturkgeldi.currency.network.error.call
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class FixerApiManager(
     private val fixerApiService: FixerApiService,
 ) : CurrencyApiManager {
-    override suspend fun getAllCurrencies(): Result<List<String>, Exception> {
-        val x = fixerApiService.getSymbols()
-        return if (x.isSuccessful) Ok(x.body()?.symbols?.map { it.key } ?: listOf()) else Err(java.lang.Exception())
+    override suspend fun getAllCurrencies(): Result<List<String>, CurrencyException> {
+        val x = call(fixerApiService.getSymbols())
+        return if (x.component2() == null) Ok(x.component1()?.symbols?.map { it.key } ?: listOf()) else Err(x.component2()!!)
     }
 
     override suspend fun convert(from: String, to: String, amount: Double) : Result<Double, Exception> {

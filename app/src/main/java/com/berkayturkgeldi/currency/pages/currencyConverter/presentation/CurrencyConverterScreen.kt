@@ -64,6 +64,13 @@ fun CurrencyConverterContent(
     onDetailsClicked : (String, String) -> Unit = {_, _ -> }
 ) {
     val ctx = LocalContext.current
+
+    LaunchedEffect(state.exception) {
+        if (state.exception != null) {
+            Toast.makeText(ctx, "Error : ${state.exception}", Toast.LENGTH_LONG).show()
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

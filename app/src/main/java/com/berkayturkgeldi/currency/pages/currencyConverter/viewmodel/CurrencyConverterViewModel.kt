@@ -26,12 +26,12 @@ class CurrencyConverterViewModel(
     }
 
     private fun fetchAllCurrencies() = viewModelScope.launch {
-        _state.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true, exception = null) }
         val result = fetchCurrencies.invoke()
         if (result is Ok) {
             _state.update { it.copy(currencies = result.value) }
         } else {
-            Log.d("myTag","error is $result")
+            _state.update { it.copy(exception = result.component2()?.message) }
         }
         _state.update { it.copy(isLoading = false) }
     }

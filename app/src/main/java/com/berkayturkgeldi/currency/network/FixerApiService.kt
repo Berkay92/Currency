@@ -5,6 +5,8 @@ import com.berkayturkgeldi.currency.BuildConfig
 import com.berkayturkgeldi.currency.network.model.response.ConvertResponse
 import com.berkayturkgeldi.currency.network.model.response.LatestResponse
 import com.berkayturkgeldi.currency.network.model.response.SymbolsResponse
+import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,16 +44,19 @@ private val client = OkHttpClient.Builder()
  */
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
+    .addCallAdapterFactory(NetworkResponseAdapterFactory())
     .client(client)
     .baseUrl(BASE_URL)
     .build()
+
+data class ErrorResponse(val message: String)
 
 /**
  * Retrofit service object for creating api calls
  */
 interface FixerApiService {
     @GET("symbols")
-    suspend fun getSymbols(): Response<SymbolsResponse>
+    suspend fun getSymbols(): NetworkResponse<SymbolsResponse, ErrorResponse>
 
     @GET("latest")
     suspend fun latest(
