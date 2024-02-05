@@ -111,7 +111,12 @@ fun CurrencyConverterContent(
             }
             Button(
                 onClick = {
-                    onDetailsClicked.invoke(state.fromCurrency.orEmpty(), state.toCurrency.orEmpty())
+                    if (state.fromCurrency.isNullOrBlank() || state.toCurrency.isNullOrBlank()) {
+                        Toast.makeText(ctx, "Please select currencies FROM and TO before", Toast.LENGTH_LONG).show()
+                    } else {
+                        onDetailsClicked.invoke(state.fromCurrency, state.toCurrency)
+
+                    }
                 }
             ) {
                 Text(text = "See Details")
