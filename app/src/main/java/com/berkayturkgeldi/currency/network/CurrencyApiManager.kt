@@ -10,4 +10,6 @@ interface CurrencyApiManager {
 
     suspend fun getLastThreeDaysExchanges(to: String): Result<List<Double>, Exception>
 
+    suspend fun fetchPopularExchanges(): Result<Map<String, Double>, Exception>
+
 }

@@ -40,4 +40,9 @@ class FixerApiManager(
         return if (error == null) Ok(historyList.toList()) else Err(java.lang.Exception())
     }
 
+    override suspend fun fetchPopularExchanges(): Result<Map<String, Double>, Exception> {
+        val x = fixerApiService.latest()
+        return if (x.isSuccessful) Ok(x.body()?.rates ?: mapOf()) else Err(java.lang.Exception())
+    }
+
 }
