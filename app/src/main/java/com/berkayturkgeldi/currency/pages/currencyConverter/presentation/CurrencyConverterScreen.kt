@@ -1,5 +1,6 @@
 package com.berkayturkgeldi.currency.pages.currencyConverter.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,6 +63,7 @@ fun CurrencyConverterContent(
     onSwitchCurrencies : () -> Unit = {},
     onDetailsClicked : () -> Unit = {}
 ) {
+    val ctx = LocalContext.current
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -76,8 +79,14 @@ fun CurrencyConverterContent(
             ) {
                 CurrencyDropdown("From", state.fromCurrency, state.currencies) {
                     onFromCurrencySelected.invoke(it)
+                    Toast.makeText(ctx, "Forced EUR as Fixer API free subscription not allow changing base currency", Toast.LENGTH_LONG).show()
                 }
-                Button(onClick = onSwitchCurrencies) {
+                Button(
+                    onClick = {
+                        onSwitchCurrencies.invoke()
+                        Toast.makeText(ctx, "Fixer API free subscription not allow changing base currency so this function is disabled here", Toast.LENGTH_LONG).show()
+                    }
+                ) {
                     Text(text = "Switch")
                 }
                 CurrencyDropdown("To", state.toCurrency, state.currencies) {

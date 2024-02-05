@@ -37,7 +37,8 @@ class CurrencyConverterViewModel(
     }
 
     fun onFromCurrencySelected(currency: String) {
-        _state.update { it.copy(fromCurrency = currency) }
+        // TODO : Hardcoded EUR here as Fixer API free subscription not allow changing base currency
+        _state.update { it.copy(fromCurrency = "EUR") }
         calculateConverter()
     }
 
@@ -48,19 +49,23 @@ class CurrencyConverterViewModel(
 
     fun onFromValueChanged(from: Double) {
         _state.update { it.copy(fromValue = from) }
-        calculateConverter()
+        _state.update { it.copy(toValue = it.convertRate * it.fromValue) }
     }
 
     fun onToValueChanged(to: Double) {
         _state.update { it.copy(toValue = to) }
-        calculateConverter()
+        _state.update { it.copy(fromValue = it.toValue / it.convertRate) }
+
     }
 
     fun onSwitchCurrencies() {
+        // TODO : Fixer API free subscription not allow changing base currency so this function is disabled here
+        /*
         val tempFrom = _state.value.fromCurrency
         _state.update { it.copy(fromCurrency = it.toCurrency) }
         _state.update { it.copy(toCurrency = tempFrom) }
-        calculateConverter()
+
+         */
     }
 
     private fun calculateConverter() {

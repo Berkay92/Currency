@@ -13,8 +13,10 @@ class FixerApiManager(
     }
 
     override suspend fun convert(from: String, to: String, amount: Double) : Result<Double, Exception> {
-        val x = fixerApiService.latest(from, listOf(to))
-        return if (x.isSuccessful) Ok(x.body()?.rates?.getValue(from) ?: 0.0) else Err(java.lang.Exception())
+        //val x = fixerApiService.latest(from, listOf(to))
+        //val x = fixerApiService.latest(from)
+        val x = fixerApiService.latest()
+        return if (x.isSuccessful) Ok(x.body()?.rates?.getValue(to) ?: 0.0) else Err(java.lang.Exception())
 
     }
 
