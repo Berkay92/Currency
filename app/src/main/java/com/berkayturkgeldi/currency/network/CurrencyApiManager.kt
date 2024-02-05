@@ -8,7 +8,7 @@ interface CurrencyApiManager {
 
     suspend fun convert(from: String, to: String, amount: Double) : Result<Double, Exception>
 
-    suspend fun getLastThreeDaysExchanges(to: String): Result<List<Double>, Exception>
+    suspend fun getLastThreeDaysExchanges(to: String): Result<Map<String, Double>, Exception>
 
     suspend fun fetchPopularExchanges(): Result<Map<String, Double>, Exception>
 

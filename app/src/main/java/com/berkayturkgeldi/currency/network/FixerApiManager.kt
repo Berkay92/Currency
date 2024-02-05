@@ -22,22 +22,22 @@ class FixerApiManager(
 
     }
 
-    override suspend fun getLastThreeDaysExchanges(to: String): Result<List<Double>, Exception> {
+    override suspend fun getLastThreeDaysExchanges(to: String): Result<Map<String, Double>, Exception> {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val today = LocalDate.now()
-        val historyList = mutableListOf<Double>()
+        val historyMap = mutableMapOf<String, Double>()
         var error : java.lang.Exception? = null
         (1..3).forEach { index ->
             var theDayBefore = today.minusDays(index.toLong())
             var theDayBeforeFormatted = theDayBefore.format(formatter)
             val x = fixerApiService.historic(theDayBeforeFormatted)
             if (x.isSuccessful) {
-                historyList.add(x.body()?.rates?.getValue(to) ?: 0.0)
+                historyMap.put(theDayBeforeFormatted, x.body()?.rates?.getValue(to) ?: 0.0)
             } else {
                 error = java.lang.Exception()
             }
         }
-        return if (error == null) Ok(historyList.toList()) else Err(java.lang.Exception())
+        return if (error == null) Ok(historyMap.toMap()) else Err(java.lang.Exception())
     }
 
     override suspend fun fetchPopularExchanges(): Result<Map<String, Double>, Exception> {

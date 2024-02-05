@@ -27,14 +27,14 @@ class DetailViewModel(
             viewModelScope.launch {
                 val result = getLastThreeDaysExchanges(to)
                 if (result is Ok) {
-                    Log.d("myTag","result list : ${result.value}")
+                    _state.update { it.copy(lastThreeDays = result.value) }
                 } else {
                     Log.d("myTag","Something went wrong : $result")
                 }
 
                 val popularExchangesResult = fetchPopularExchanges.invoke()
                 if (popularExchangesResult is Ok) {
-                    Log.d("myTag","popular result list : ${popularExchangesResult.value}")
+                    _state.update { it.copy(popularExchanges = popularExchangesResult.value) }
                 } else {
                     Log.d("myTag","Something went wrong for popular : $result")
                 }

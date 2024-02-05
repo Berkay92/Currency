@@ -1,12 +1,13 @@
 package com.berkayturkgeldi.currency.pages.detail.presentation
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.berkayturkgeldi.currency.pages.detail.viewmodel.DetailState
@@ -33,11 +34,31 @@ fun DetailScreen(
 fun DetailContent(
     state: DetailState
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Row(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = "Detail Screen")
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(text = "Last 3 days")
+            Divider()
+            state.lastThreeDays.forEach { entry ->
+                Text(text = entry.key)
+                Text(text = entry.value.toString())
+                Text(text = "-- -- --")
+            }
+        }
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(text = "Popular Exchanges")
+            Divider()
+            state.popularExchanges.forEach { entry ->
+                Text(text = entry.key)
+                Text(text = entry.value)
+                Text(text = "-- -- --")
+            }
+        }
     }
 }
 
