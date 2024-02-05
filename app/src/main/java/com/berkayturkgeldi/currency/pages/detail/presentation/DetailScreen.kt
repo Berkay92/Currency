@@ -13,7 +13,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.berkayturkgeldi.currency.R
 import com.berkayturkgeldi.currency.pages.detail.viewmodel.DetailState
 import com.berkayturkgeldi.currency.pages.detail.viewmodel.DetailViewModel
 import org.koin.androidx.compose.getViewModel
@@ -53,7 +55,7 @@ fun DetailContent(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(text = "Last 3 days")
+            Text(text = stringResource(id = R.string.last_three_days))
             Divider()
             state.lastThreeDays.forEach { entry ->
                 Text(text = entry.key)
@@ -66,7 +68,7 @@ fun DetailContent(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(text = "Popular Exchanges")
+            Text(text = stringResource(id = R.string.popular_exchanges))
             Divider()
             state.popularExchanges.forEach { entry ->
                 Text(text = entry.key)

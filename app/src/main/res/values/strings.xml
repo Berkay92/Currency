@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Currency</string>
+
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="switch_currencies">Switch</string>
+    <string name="see_details">See Details</string>
+
+    <string name="last_three_days">Last 3 days</string>
+    <string name="popular_exchanges">Popular Exchanges</string>
 </resources>

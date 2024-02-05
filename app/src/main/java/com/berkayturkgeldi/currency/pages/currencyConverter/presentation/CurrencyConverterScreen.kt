@@ -28,9 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.berkayturkgeldi.currency.R
 import com.berkayturkgeldi.currency.pages.currencyConverter.viewmodel.CurrencyConverterState
 import com.berkayturkgeldi.currency.pages.currencyConverter.viewmodel.CurrencyConverterViewModel
 import org.koin.androidx.compose.getViewModel
@@ -84,7 +86,7 @@ fun CurrencyConverterContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                CurrencyDropdown("From", state.fromCurrency, state.currencies) {
+                CurrencyDropdown(stringResource(id = R.string.from), state.fromCurrency, state.currencies) {
                     onFromCurrencySelected.invoke(it)
                     Toast.makeText(ctx, "Forced EUR as Fixer API free subscription not allow changing base currency", Toast.LENGTH_LONG).show()
                 }
@@ -94,9 +96,9 @@ fun CurrencyConverterContent(
                         Toast.makeText(ctx, "Fixer API free subscription not allow changing base currency so this function is disabled here", Toast.LENGTH_LONG).show()
                     }
                 ) {
-                    Text(text = "Switch")
+                    Text(text = stringResource(id = R.string.switch_currencies))
                 }
-                CurrencyDropdown("To", state.toCurrency, state.currencies) {
+                CurrencyDropdown(stringResource(id = R.string.to), state.toCurrency, state.currencies) {
                     onToCurrencySelected.invoke(it)
                 }
             }
@@ -126,7 +128,7 @@ fun CurrencyConverterContent(
                     }
                 }
             ) {
-                Text(text = "See Details")
+                Text(text = stringResource(id = R.string.see_details))
             }
         }
     }
