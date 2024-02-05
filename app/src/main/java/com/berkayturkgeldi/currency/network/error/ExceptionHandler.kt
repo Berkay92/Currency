@@ -1,6 +1,5 @@
 package com.berkayturkgeldi.currency.network.error
 
-import com.berkayturkgeldi.currency.network.ErrorResponse
 import com.berkayturkgeldi.currency.network.common.Err
 import com.berkayturkgeldi.currency.network.common.Ok
 import com.berkayturkgeldi.currency.network.common.Result

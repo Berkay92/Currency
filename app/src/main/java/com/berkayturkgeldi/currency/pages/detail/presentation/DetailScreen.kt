@@ -1,5 +1,6 @@
 package com.berkayturkgeldi.currency.pages.detail.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.berkayturkgeldi.currency.pages.detail.viewmodel.DetailState
 import com.berkayturkgeldi.currency.pages.detail.viewmodel.DetailViewModel
@@ -36,6 +38,13 @@ fun DetailScreen(
 fun DetailContent(
     state: DetailState
 ) {
+    val ctx = LocalContext.current
+
+    LaunchedEffect(state.exception) {
+        if (state.exception != null) {
+            Toast.makeText(ctx, "Error : ${state.exception}", Toast.LENGTH_LONG).show()
+        }
+    }
     Row(
         modifier = Modifier.fillMaxSize()
     ) {

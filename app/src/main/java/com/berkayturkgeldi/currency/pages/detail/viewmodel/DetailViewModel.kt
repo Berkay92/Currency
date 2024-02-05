@@ -29,14 +29,14 @@ class DetailViewModel(
                 if (result is Ok) {
                     _state.update { it.copy(lastThreeDays = result.value) }
                 } else {
-                    Log.d("myTag","Something went wrong : $result")
+                    _state.update { it.copy(exception = result.component2()?.message) }
                 }
 
                 val popularExchangesResult = fetchPopularExchanges.invoke()
                 if (popularExchangesResult is Ok) {
                     _state.update { it.copy(popularExchanges = popularExchangesResult.value) }
                 } else {
-                    Log.d("myTag","Something went wrong for popular : $result")
+                    _state.update { it.copy(exception = result.component2()?.message) }
                 }
             }
         }

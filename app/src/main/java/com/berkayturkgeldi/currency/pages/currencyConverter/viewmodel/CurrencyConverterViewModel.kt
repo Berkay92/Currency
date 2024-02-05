@@ -79,7 +79,7 @@ class CurrencyConverterViewModel(
                 if (result is Ok) {
                     _state.update { it.copy(toValue = result.value * it.fromValue, convertRate = result.value) }
                 } else {
-                    Log.d("myTag","Something went wrong! $result")
+                    _state.update { it.copy(exception = result.component2()?.message) }
                 }
             }
 

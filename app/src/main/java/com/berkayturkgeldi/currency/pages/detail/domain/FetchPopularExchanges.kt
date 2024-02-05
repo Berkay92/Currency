@@ -4,11 +4,12 @@ import com.berkayturkgeldi.currency.network.CurrencyApiManager
 import com.berkayturkgeldi.currency.network.common.Err
 import com.berkayturkgeldi.currency.network.common.Ok
 import com.berkayturkgeldi.currency.network.common.Result
+import com.berkayturkgeldi.currency.network.error.CurrencyException
 
 open class FetchPopularExchanges(
     private val currencyApiManager: CurrencyApiManager
 ) {
-    suspend operator fun invoke(): Result<Map<String, String>, Exception?> {
+    suspend operator fun invoke(): Result<Map<String, String>, CurrencyException?> {
         val exchanges = currencyApiManager.fetchPopularExchanges()
         if (exchanges is Ok) {
             return Ok(

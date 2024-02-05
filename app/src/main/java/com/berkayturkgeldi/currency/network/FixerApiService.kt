@@ -2,6 +2,7 @@ package com.berkayturkgeldi.currency.network
 
 import android.util.Log
 import com.berkayturkgeldi.currency.BuildConfig
+import com.berkayturkgeldi.currency.network.error.ErrorResponse
 import com.berkayturkgeldi.currency.network.model.response.ConvertResponse
 import com.berkayturkgeldi.currency.network.model.response.LatestResponse
 import com.berkayturkgeldi.currency.network.model.response.SymbolsResponse
@@ -10,7 +11,6 @@ import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -49,8 +49,6 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-data class ErrorResponse(val message: String)
-
 /**
  * Retrofit service object for creating api calls
  */
@@ -62,19 +60,19 @@ interface FixerApiService {
     suspend fun latest(
         @Query("base") from: String? = null,
         @Query("symbols") to: List<String>? = null,
-    ): Response<LatestResponse>
+    ): NetworkResponse<LatestResponse, ErrorResponse>
 
     @GET("convert")
     suspend fun convert(
         @Query("from") from: String? = null,
         @Query("to") to: String? = null,
         @Query("amount") amount: Double? = null,
-    ): Response<ConvertResponse>
+    ): NetworkResponse<ConvertResponse, ErrorResponse>
 
     @GET("/{date}")
     suspend fun historic(
         @Path("date") date: String
-    ): Response<LatestResponse>
+    ): NetworkResponse<LatestResponse, ErrorResponse>
 
 }
 

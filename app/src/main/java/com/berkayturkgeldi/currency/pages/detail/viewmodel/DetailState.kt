@@ -8,5 +8,6 @@ data class DetailState(
     val fromCurrency: String? = null,
     val toCurrency: String? = null,
     val lastThreeDays: Map<String, Double> = mapOf(),
-    val popularExchanges: Map<String, String> = mapOf()
+    val popularExchanges: Map<String, String> = mapOf(),
+    val exception: String? = null
 )
