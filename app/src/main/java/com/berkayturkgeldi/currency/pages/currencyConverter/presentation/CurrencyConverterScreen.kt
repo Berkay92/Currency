@@ -38,7 +38,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun CurrencyConverterScreen(
     vm: CurrencyConverterViewModel = getViewModel(),
-    onDetailsClicked : () -> Unit
+    onDetailsClicked : (String, String) -> Unit
 ) {
     val state = vm.state.collectAsState().value
 
@@ -61,7 +61,7 @@ fun CurrencyConverterContent(
     onFromValueChanged : (Double) -> Unit = {},
     onToValueChanged : (Double) -> Unit = {},
     onSwitchCurrencies : () -> Unit = {},
-    onDetailsClicked : () -> Unit = {}
+    onDetailsClicked : (String, String) -> Unit = {_, _ -> }
 ) {
     val ctx = LocalContext.current
     Box(
@@ -109,7 +109,11 @@ fun CurrencyConverterContent(
                     onValueChange = onToValueChanged
                 )
             }
-            Button(onClick = onDetailsClicked) {
+            Button(
+                onClick = {
+                    onDetailsClicked.invoke(state.fromCurrency.orEmpty(), state.toCurrency.orEmpty())
+                }
+            ) {
                 Text(text = "See Details")
             }
         }

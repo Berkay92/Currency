@@ -14,6 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val RETROFIT_LOGGING_INTERCEPTOR_TAG = "API_Interceptor"
@@ -66,6 +67,11 @@ interface FixerApiService {
         @Query("to") to: String? = null,
         @Query("amount") amount: Double? = null,
     ): Response<ConvertResponse>
+
+    @GET("/{date}")
+    suspend fun historic(
+        @Path("date") date: String
+    ): Response<LatestResponse>
 
 }
 

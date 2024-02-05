@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.berkayturkgeldi.currency.navigation.NavigationConst.FROM_CURRENCY
+import com.berkayturkgeldi.currency.navigation.NavigationConst.TO_CURRENCY
 import com.berkayturkgeldi.currency.pages.currencyConverter.presentation.CurrencyConverterScreen
 import com.berkayturkgeldi.currency.pages.detail.presentation.DetailScreen
 
@@ -17,14 +19,16 @@ fun SetupMainNavigation(
     ) {
         composable(Screen.CurrencyConverterScreen.route) {
             CurrencyConverterScreen(
-                onDetailsClicked = {
-                    navController.navigate(Screen.DetailScreen.route)
+                onDetailsClicked = { from, to ->
+                    navController.navigate(Screen.DetailScreen.buildRoute(from, to))
                 }
             )
         }
 
         composable(Screen.DetailScreen.route) {
-            DetailScreen()
+            val from = it.arguments?.getString(FROM_CURRENCY).orEmpty()
+            val to = it.arguments?.getString(TO_CURRENCY).orEmpty()
+            DetailScreen(from = from, to = to)
         }
     }
 }
