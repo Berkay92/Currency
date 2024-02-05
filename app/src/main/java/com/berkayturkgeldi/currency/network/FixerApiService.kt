@@ -7,9 +7,7 @@ import com.berkayturkgeldi.currency.network.model.response.LatestResponse
 import com.berkayturkgeldi.currency.network.model.response.SymbolsResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

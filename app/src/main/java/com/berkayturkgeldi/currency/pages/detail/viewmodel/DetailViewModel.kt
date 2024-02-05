@@ -23,7 +23,7 @@ class DetailViewModel(
 
     fun initPage(from: String, to: String) {
         _state.update { it.copy(fromCurrency = from, toCurrency = to) }
-        if (to.isNullOrBlank().not()) {
+        if (to.isBlank().not()) {
             viewModelScope.launch {
                 val result = getLastThreeDaysExchanges(to)
                 if (result is Ok) {
