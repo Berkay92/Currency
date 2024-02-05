@@ -4,5 +4,6 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class CurrencyConverterState(
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val currencies: List<String> = listOf()
 )

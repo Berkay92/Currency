@@ -27,7 +27,7 @@ class CurrencyConverterViewModel(
         _state.update { it.copy(isLoading = true) }
         val result = fetchCurrencies.invoke()
         if (result is Ok) {
-            Log.d("myTag","currencies : $result")
+            _state.update { it.copy(currencies = result.value) }
         } else {
             Log.d("myTag","error is $result")
         }
