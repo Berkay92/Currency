@@ -1,6 +1,7 @@
 package com.berkayturkgeldi.currency
 
 import android.app.Application
+import com.berkayturkgeldi.currency.network.di.networkModule
 import com.berkayturkgeldi.currency.pages.currencyConverter.di.currencyConverterModule
 import com.berkayturkgeldi.currency.pages.detail.di.detailModule
 import org.koin.android.ext.koin.androidContext
@@ -17,7 +18,8 @@ class CurrencyApp : Application() {
             androidLogger()
             modules(
                 currencyConverterModule,
-                detailModule
+                detailModule,
+                networkModule
             )
         }
     }

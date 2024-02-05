@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.jetbrainsKotlinSerialization)
     alias(libs.plugins.secretGradlePlugin)
 }
 
@@ -52,6 +53,11 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.navigation)
     implementation(libs.ktx.activity)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.scalars)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.kotlinx.serialization)
     implementation(libs.koin)
     implementation(libs.koin.compose)
     implementation(libs.coil.compose)
